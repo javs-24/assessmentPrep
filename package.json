@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/richardsjacob/assessmentPrep/issues"
   },
-  "homepage": "https://github.com/richardsjacob/assessmentPrep#readme"
+  "homepage": "https://github.com/richardsjacob/assessmentPrep#readme",
+  "dependencies": {
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.6.0",
+    "pg": "^7.11.0"
+  }
 }
