@@ -3,25 +3,31 @@ const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const controller = require('./sqlController');
+const userController = require('./controllers/sql/userController');
+const todoController = require('./controllers/sql/todoController');
+const cookieController = require('./controllers/sql/cookieController');
+const sessionController = require('./controllers/sql/sessionController');
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../', 'client'))); // serves all static files located in the client folder
 
-app.post('/signup', controller.signup, (req, res) => {
+app.get('/');
+
+app.post('/signup', userController.signup, (req, res) => {
   res.status(200).send('u signed up!');
 });
-app.post('/login', controller.login, (req, res) => {
-  res.status(200).send('u signed up!');
+app.post('/login', userController.login, (req, res) => {
+  res.status(200).json(res.locals.result);
 });
-app.get('/getAllTodos/:uname', controller.getAllTodos, (req, res) => {
-  res.status(200).send('u signed up!');
+app.get('/getAllTodos/:uname', todoController.getAllTodos, (req, res) => {
+  res.status(200).json(res.locals.result);
 });
-app.post('/newTodo', controller.newTodo, (req, res) => {
-  res.status(200).send('u signed up!');
+app.post('/newTodo', todoController.newTodo, (req, res) => {
+  res.status(200).json(res.locals.result);
 });
-app.delete('/deleteTodo', controller.signup, (req, res) => {
-  res.status(200).send('u signed up!');
+app.delete('/deleteTodo', todoController.deleteTodo, (req, res) => {
+  res.status(200).send('u deleted a todo u monster');
 });
 
 app.use((err, req, res, next) => {
