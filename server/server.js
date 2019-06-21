@@ -24,6 +24,12 @@ app.delete('/deleteTodo', controller.signup, (req, res) => {
   res.status(200).send('u signed up!');
 });
 
+app.use((err, req, res, next) => {
+  // global error handler
+  console.error(err);
+  res.status(500).send('Something broke!');
+});
+
 app.listen(3000, () => {
   console.log('listening on port 3000 yeet');
 });
