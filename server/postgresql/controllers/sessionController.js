@@ -4,7 +4,7 @@ const pool = new Pool({
     'postgres://jzhdflks:V5l-IjqVYrLewLkKnqsb0GkVZypj1X6r@raja.db.elephantsql.com:5432/jzhdflks'
 });
 
-pool.query('CREATE TABLE IF NOT EXISTS sessions(session_id SERIAL PRIMARY KEY, cookie_id VARCHAR NOT NULL UNIQUE, created_at DATE NOT NULL DEFAULT CURRENT_DATE);',
+pool.query('CREATE TABLE IF NOT EXISTS sessions(session_id SERIAL PRIMARY KEY, cookie_id VARCHAR NOT NULL, created_at DATE NOT NULL DEFAULT CURRENT_DATE);',
   (err, result) => {
     if (err) console.error('DB ERROR CREATING sessions TABLE:\n' + err);    
   }
@@ -21,9 +21,8 @@ controller.isLoggedIn = (req, res, next) => {
     ssidParam,
     (err, result) => {
       if (err) return next('DB ERROR FINDING A SESSION:\n' + err);
-      if (result === null) return next('PROBLEM VERIFYING SESSION: Need to log in');
+      if (!result.rows[0]) return next('PROBLEM VERIFYING SESSION: Need to log in');
       console.log('Verified that the user is logged in, by finding this session row', result.rows[0])
-      res.locals.result = result.rows[0];
       next();
     }
   );

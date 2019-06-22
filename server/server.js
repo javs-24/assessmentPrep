@@ -16,7 +16,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/static', express.static(path.join(__dirname, '../', 'client'))); // serves all static files located in the client folder
+app.use('/static', express.static(path.join(__dirname, '..', 'client'))); // serves all static files located in the client folder
 
 //HOME ROUTE
 

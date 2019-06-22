@@ -12,13 +12,15 @@ pool.query('CREATE TABLE IF NOT EXISTS users(user_id SERIAL PRIMARY KEY, uname V
 );
 
 controller.signup = (req, res, next) => {
+  console.log('\n---invoking signup middleware---')
+
   console.log(req.body.uname, req.body.pw);
   pool.query(
     'INSERT INTO Users (uname, pw) VALUES ($1, $2) RETURNING user_id;',
     [req.body.uname, req.body.pw],
     (error, result) => {
-      console.log('created a user!', result);
       if (error) return next(error);
+      console.log('created a user!', result);
       res.locals.ssid = result.rows[0].user_id;
       next();
     }
@@ -35,8 +37,8 @@ controller.login = (req, res, next) => {
       if (err) return next('DB ERROR FINDING A USER:\n' + err);
       const user = result.rows[0];
       if (!user) return next('DB ERROR FINDING A USER: User does not exist');
-      res.locals.ssid = user.user_id;
-      console.log('saved user.id in res.locals.ssid =', user.user_id);
+      // res.locals.ssid = Math.floor(Math.random() * 1000);
+      // console.log('saved user.id in res.locals.ssid =', res.locals.ssid);
       next();
     }
   );
